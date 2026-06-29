@@ -1,0 +1,19 @@
+meta {
+  name: Update Card
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/cards/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Nubank Updated",
+    "lastDigits": "5678",
+    "updateAt": "2026-05-26T00:00:00.000Z"
+  }
+}

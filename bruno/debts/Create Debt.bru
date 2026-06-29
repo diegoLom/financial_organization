@@ -1,0 +1,22 @@
+meta {
+  name: Create Debt
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/debts
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "date": "2026-05-26T00:00:00.000Z",
+    "description": "Grocery shopping",
+    "amount": 150.00,
+    "type": "EXPENSE",
+    "card": { "connect": { "id": 1 } },
+    "category": { "connect": { "id": 1 } }
+  }
+}

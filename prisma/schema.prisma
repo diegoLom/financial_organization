@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+
+// prisma/schema.prisma 
+
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum DebtType {
+  EXPENSE
+  INCOME
+}
+
+model Owner {
+  id         Int          @id @default(autoincrement())
+  name       String
+  email      String?      @unique
+  createdAt  DateTime     @default(now()) @map("created_at")
+  debtOwners DebtOwner[]
+
+  @@map("owners")
+}
+
+model Card {
+  id Int @id @default(autoincrement())
+  name String
+  lastDigits String? @map("last_digits") @db.VarChar(4)
+  createdAt DateTime @default(now()) @map("created_at")
+  updateAt DateTime @map("update_at")
+  debts Debt[]
+
+  @@map("cards")
+
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String @unique
+  debts Debt[]
+
+  @@map("categories")
+
+
+}
+
+
+model Debt {
+  id          Int         @id @default(autoincrement())
+  date        DateTime
+  description String      // "Lançamento"
+  amount      Decimal     @db.Decimal(10, 2)
+  type        DebtType    @default(EXPENSE)
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  cardId      Int         @map("card_id")
+  card        Card        @relation(fields: [cardId], references: [id])
+
+  categoryId  Int         @map("category_id")
+  category    Category    @relation(fields: [categoryId], references: [id])
+
+  debtOwners  DebtOwner[]
+
+  @@map("debts")
+}
+
+model DebtOwner {
+  id          Int      @id @default(autoincrement())
+  splitAmount Decimal? @map("split_amount") @db.Decimal(10, 2)
+
+  debtId      Int      @map("debt_id")
+  debt        Debt     @relation(fields: [debtId], references: [id], onDelete: Cascade)
+
+  ownerId     Int      @map("owner_id")
+  owner       Owner    @relation(fields: [ownerId], references: [id])
+
+  @@unique([debtId, ownerId])
+  @@map("debt_owners")
+}
+

@@ -1,0 +1,18 @@
+meta {
+  name: Update Owner
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/owners/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "John Updated",
+    "email": "john.updated@example.com"
+  }
+}

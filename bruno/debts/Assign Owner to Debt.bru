@@ -1,0 +1,19 @@
+meta {
+  name: Assign Owner to Debt
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/debts/1/owners
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "splitAmount": 75.00,
+    "debt": { "connect": { "id": 1 } },
+    "owner": { "connect": { "id": 1 } }
+  }
+}

@@ -1,0 +1,17 @@
+meta {
+  name: Update DebtOwner
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{baseUrl}}/debt-owners/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "splitAmount": 100.00
+  }
+}

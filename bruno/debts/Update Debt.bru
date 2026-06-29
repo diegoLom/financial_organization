@@ -1,0 +1,19 @@
+meta {
+  name: Update Debt
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/debts/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "description": "Updated grocery shopping",
+    "amount": 200.00,
+    "type": "EXPENSE"
+  }
+}
