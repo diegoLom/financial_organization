@@ -1,1 +1,1 @@
-# financial_organization
+# Financial Organization
